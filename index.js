@@ -112,7 +112,6 @@ module.exports = function lfgfinder(dispatch) {
 			}
 			else*/
 			
-			console.log(JSON.stringify(messages))
 			
 			messages.forEach(post => {	//Hefty search but its needed for multiple arguments with objects.
 				for(let i in searchterms) {
@@ -125,26 +124,24 @@ module.exports = function lfgfinder(dispatch) {
 			})
 			
 			messages=[]
-			dispatch.toServer('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
 			searching=false
+			if(PRETEND_LEGIT) dispatch.toServer('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
 		}
 	})	
 	
-	dispatch.hook('C_REQUEST_PARTY_MATCH_INFO', 'raw', fake => {
-		if(!fake) {
-			if(PRETEND_LEGIT && !searching && !windowopened) { //while searching server will see it as your window is opened. This will close the window before allowing true opening.
-				dispatch.toServer('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
-			}
-			
-			windowopened=true
+	dispatch.hook('C_REQUEST_PARTY_MATCH_INFO', 'raw', {filter:{fake:false}}, () => {
+		if(PRETEND_LEGIT && !searching && !windowopened) { //while searching server will see it as your window is opened. This will close the window before allowing true opening.
+			dispatch.toServer('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
 		}
+			
+		windowopened=true
 	})
 	
-	dispatch.hook('C_PARTY_MATCH_WINDOW_CLOSED', 'raw', fake => {
-		if(!fake) windowopened=false
+	dispatch.hook('C_PARTY_MATCH_WINDOW_CLOSED', 'raw', {filter:{fake:false}}, () => {
+		windowopened=false
 	})
 	
-	dispatch.hook('S_RETURN_TO_LOBBY', 'raw', code => { //clear all timer when switching characters
+	dispatch.hook('S_RETURN_TO_LOBBY', 'raw', () => { //clear all timer when switching characters
 		clearTimeout(timer)
 		searchterms=[]
 		searchno=[]
@@ -201,16 +198,16 @@ module.exports = function lfgfinder(dispatch) {
 	function pretendlegit() { //In Tera NA, opening the window send these packets in order. CRPMI,CRPMI,CRMPMI
 		dispatch.toServer('C_REQUEST_PARTY_MATCH_INFO', 1, {
 				unk1:0,
-				levelRangeLow:lowerRange,
-				levelRangeHigh:upperRange,
+				minlvl:lowerRange,
+				maxlvl:upperRange,
 				unk2:3,
 				unk3:0,
 				purpose:''
 		})
 		dispatch.toServer('C_REQUEST_PARTY_MATCH_INFO', 1, {
 				unk1:0,
-				levelRangeLow:lowerRange,
-				levelRangeHigh:upperRange,
+				minlvl:lowerRange,
+				maxlvl:upperRange,
 				unk2:3,
 				unk3:0,
 				purpose:''

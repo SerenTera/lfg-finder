@@ -9,7 +9,7 @@ Requires: Commands module by Pinkie-Pie
 ### Defaults in index.js are as follows:
 - NO_REPEATS=true: No continual repetition notifications from previously informed parties, based on leader to differentiate. In other words, Only one notification per party lead
 
-- PRETEND_LEGIT=true: Pretend you are legitimately searching with window open. Very experimental and this does not mean totally risk-free. Set to true to try it out.
+- PRETEND_LEGIT=true: Pretend you are legitimately searching with window open. Very experimental and this does not mean totally risk-free. Set to true to try it out. false if you do not care lul
 
 - SEARCH_INTERVAL=30000: Default interval to search for lfgs. In milsecs. (default=30000ms=30s) Aka searches every this often.
 
@@ -26,8 +26,8 @@ From the above, you can see how you should add your own list in. If the dungeon 
 
 ### Other settings
 - lowerRange=60,: Lower Level range to search for
--	upperRange=65,: Upper Level range to search for
--	soundId=4002: Sound ID of warning. Go [Here](https://docs.google.com/spreadsheets/d/1Inba-tW70grzqisvpdFPpKFfgz5XTptFygjUNb1T1hw/edit?usp=sharing) to find more sound ids. Credits to hugedong69 (https://github.com/hugedong69/Spawner) for this.
+- upperRange=65,: Upper Level range to search for
+- soundId=4002: Sound ID of warning. Go [Here](https://docs.google.com/spreadsheets/d/1Inba-tW70grzqisvpdFPpKFfgz5XTptFygjUNb1T1hw/edit?usp=sharing) to find more sound ids. Credits to hugedong69 (https://github.com/hugedong69/Spawner) for this.
 
 ## Commands
 Type commands in '/proxy' chat or use '!' prefix in other chat channels.

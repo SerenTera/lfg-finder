@@ -5,8 +5,11 @@ const NO_REPEATS=true,			//No continual repetition notifications from previously
 	  PRETEND_LEGIT=true,		//Pretend you are legitimately searching with window open. Very experimental and this does not mean totally risk-free lul.
 	  SEARCH_INTERVAL=30000,	//Default interval to search for lfgs. In milsecs. (default=30000ms=30s)
 	  TRY_AGAIN_INTERVAL=200,	//Default interval to retry search for lfg if previous search fail. Put a small delay for this. (It is unnatural for you to search multiple times before the initial search has returned to your pc) 
-	  CHECK_MAX_MEMBER=true		//Check if the raid has max number of members already, and prevent notification if so. False sets max member to 31.
 	  
+      	  CHECK_MAX_MEMBER=true,	//Check if the raid has max number of members already, and prevent notification if so. False sets max member to 31.
+	  JOIN_PARTY_STOPS_SEARCH=true	//true to auto stop searches upon joining a party
+
+
 let lowerRange=60,				//Lower Level range to search for
 	upperRange=65,				//Upper Level range to search for
 	soundId=4002				//Sound ID of warning
@@ -146,6 +149,15 @@ module.exports = function lfgfinder(dispatch) {
 		searchterms=[]
 		searchno=[]
 	})
+	
+	dispatch.hook('S_PARTY_MEMBER_LIST', 'raw', () => { //clear all timer and stuff when joining a party
+		if(JOIN_PARTY_STOPS_SEARCH && searchterms.length!==0) {
+			clearTimeout(timer)
+			searchterms=[]
+			searchno=[]
+		}
+	})
+	
 	
 	/////Functions
 	function finder(){

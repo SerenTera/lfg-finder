@@ -1,7 +1,7 @@
 # lfg-finder
 A tera proxy module to notify if an lfg that you want appears. Has 2 versions: one with tera-notifier support and one warning just using ingame sound. Please read the infomation carefully. This module uses to Server packets and thus carries some risk, similar to other modules that also dispatches to server.
 
-This Branch is for: NON tera-notifier version. NO SUPPORT FOR tera-notifier. Uses ingame sounds to alert you instead.
+This Branch is for: NON tera-notifier version. NO SUPPORT FOR tera-notifier. Uses ingame sounds to alert you instead. Use the other branch('tera-notifier' branch) for tera-notifier support.
 
 Requires: Commands module by Pinkie-Pie
 

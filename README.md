@@ -44,9 +44,11 @@ From the above, you can see how you should add your own list in. If the dungeon 
 - upperRange=65,: Upper Level range to search for
 - soundId='Notification.IM': Use true for default windows notification sound. Or use false for silence. For Custom id strings, read: http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
 
-
-Typing 'lfgfind ai' may yield this with default settings if there is such a lfg that is not full party:
+## Example
+Typing 'lfgfind ai' and then waiting for an lfg will yield this with default settings if there is such a lfg that is not full party:
 ![lfg](http://i.imgur.com/wZOu8mA.jpg)
+
+After which you just need to apply to it. The search should stop on its own upon joining party, look out for a message that says all searches stopped, else use `lfgstop` without arguments.
 ## Other infomation
 - This module is slightly risky because it uses packets that is sent to server. Attempts to mask it should not be taken as 100% effective. 
 - This module is in initial stages and might contain alot of bugs

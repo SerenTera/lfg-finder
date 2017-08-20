@@ -5,9 +5,10 @@ Has 2 versions: one with tera-notifier support and one warning just using ingame
 
 This Branch is for: tera-notifier version. REQUIRES tera-notifier and uses it to notify you. If you do not wish to use tera-notifier, use 'master' branch instead.
 
-Requires:
+Requires (READ carefully!):
 - Commands module by Pinkie-Pie
 - tera-notifier module: https://github.com/SerenTera/tera-notifier
+- `C_REQUEST_PARTY_MATCH_INFO.1.def` file. Put the provided .def file in the module folder into 'tera-proxy\node_modules\tera-data\protocol' folder, unless the pull request into the main tera-data repo has been accepted. You must do this!
 
 ## Commands
 Type commands in '/proxy' chat or use '!' prefix in other chat channels.

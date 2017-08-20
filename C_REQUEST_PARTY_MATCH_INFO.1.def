@@ -1,0 +1,8 @@
+offset purpose
+
+int16 unk1 #always 0?
+uint16 minlvl
+uint16 maxlvl
+int32 unk2 #always 3?
+int32 unk3 #always 0?
+string purpose

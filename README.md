@@ -3,7 +3,9 @@ A tera proxy module to notify if an lfg that you want appears. Has 2 versions: o
 
 This Branch is for: NON tera-notifier version. NO SUPPORT FOR tera-notifier. Uses ingame sounds to alert you instead. Use the other branch('tera-notifier' branch) for tera-notifier support.
 
-Requires: Commands module by Pinkie-Pie
+Requires: 
+- Commands module by Pinkie-Pie
+- `C_REQUEST_PARTY_MATCH_INFO.1.def` file. Put the provided .def file in the module folder into 'tera-proxy\node_modules\tera-data\protocol' folder, unless the pull request into the main tera-data repo has been accepted. You must do this!
 
 ## Settings in index.js
 ### Defaults in index.js are as follows:

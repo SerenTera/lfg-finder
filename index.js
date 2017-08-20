@@ -148,13 +148,16 @@ module.exports = function lfgfinder(dispatch) {
 		clearTimeout(timer)
 		searchterms=[]
 		searchno=[]
+		leadlist=[]
 	})
 	
 	dispatch.hook('S_PARTY_MEMBER_LIST', 'raw', () => { //clear all timer and stuff when joining a party
 		if(JOIN_PARTY_STOPS_SEARCH && searchterms.length!==0) {
 			clearTimeout(timer)
+			command.message('(LFG Finder) All searches stopped')
 			searchterms=[]
 			searchno=[]
+			leadlist=[]
 		}
 	})
 	

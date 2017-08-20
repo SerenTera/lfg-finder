@@ -22,7 +22,7 @@ const raidList=['cw','ab','vh','ai','hh','rally','event'],	//List out the normal
 	  
 module.exports = function lfgfinder(dispatch) {
 	const command = Command(dispatch),
-		notifier = new Notifier(dispatch)
+		  notifier = new Notifier(dispatch)
 	
 	let messages=[],
 		searchterms=[],
@@ -76,13 +76,7 @@ module.exports = function lfgfinder(dispatch) {
 	
 	
 	command.add('lfgstop', arg => {
-		if(arg===undefined) {
-			clearTimeout(timer)
-			command.message('(LFG Finder) All searches stopped')
-			searchterms=[]
-			searchno=[]
-			leadlist=[]
-		}
+		if(arg===undefined) stopall()
 		
 		else {
 			arg=arg.split(',')
@@ -146,17 +140,11 @@ module.exports = function lfgfinder(dispatch) {
 	})
 	
 	dispatch.hook('S_RETURN_TO_LOBBY', 'raw', () => { //clear all timer when switching characters
-		clearTimeout(timer)
-		searchterms=[]
-		searchno=[]
+		stopall()
 	})
 	
 	dispatch.hook('S_PARTY_MEMBER_LIST', 'raw', () => { //clear all timer and stuff when joining a party
-		if(JOIN_PARTY_STOPS_SEARCH && searchterms.length!==0) {
-			clearTimeout(timer)
-			searchterms=[]
-			searchno=[]
-		}
+		if(JOIN_PARTY_STOPS_SEARCH && searchterms.length!==0) stopall()
 	})
 	
 	
@@ -182,6 +170,13 @@ module.exports = function lfgfinder(dispatch) {
 			timer = setTimeout(finder, TRY_AGAIN_INTERVAL)
 	}
 	
+	function stopall() {
+		clearTimeout(timer)
+		command.message('(LFG Finder) All searches stopped')
+		searchterms=[]
+		searchno=[]
+		leadlist=[]
+	}
 	
 	function notification(msg) {
 		notifier.notify({

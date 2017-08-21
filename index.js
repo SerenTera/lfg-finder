@@ -115,7 +115,7 @@ module.exports = function lfgfinder(dispatch) {
 			messages.forEach(post => {	//Hefty search but its needed for multiple arguments with objects.
 				for(let i in searchterms) {
 					if(post.message.toLowerCase().includes(searchterms[i]) && !leadlist.includes(post.leader) && post.playerCount<searchno[i]) {
-						notification('Message:'+post.message+'\nLeader:'+post.leader+' ('+post.playerCount+'/'+searchno[i]+')')
+						notification('Message: '+post.message+'\nLeader: '+post.leader+' ('+post.playerCount+'/'+searchno[i]+')')
 						if(NO_REPEATS) leadlist.push(post.leader)
 					}
 				}

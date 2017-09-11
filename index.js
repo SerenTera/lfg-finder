@@ -1,5 +1,5 @@
 const Command = require('command'),
-	  Notifier=require('tera-notifier')
+	  Notifier = require('tera-notifier')
 
 //Defaults
 const NO_REPEATS=true,			//No continual repetition notifications from previously informed parties, based on leader to differentiate.
@@ -9,6 +9,7 @@ const NO_REPEATS=true,			//No continual repetition notifications from previously
 	  
 	  CHECK_MAX_MEMBER=true,		//Check if the raid has max number of members already, and prevent notification if so. False sets max member to 31.
 	  JOIN_PARTY_STOPS_SEARCH=true	//Joining a party auto stops searches and clears it
+	  
 	  
 let lowerRange=60,				//Lower Level range to search for
 	upperRange=65,				//Upper Level range to search for
@@ -22,7 +23,7 @@ const raidList=['cw','ab','vh','ai','hh','rally','event'],	//List out the normal
 	  
 module.exports = function lfgfinder(dispatch) {
 	const command = Command(dispatch),
-		  notifier = new Notifier(dispatch)
+		  notifier = Notifier(dispatch)
 	
 	let messages=[],
 		searchterms=[],
@@ -53,7 +54,7 @@ module.exports = function lfgfinder(dispatch) {
 		
 		clearTimeout(timer)
 		finder()
-		command.message('(LFG Finder) Finding these: '+args)
+		command.message('(LFG Finder) Current Search: '+searchterms)
 	})
 	
 	command.add('lfgcustom', (search,members) => {

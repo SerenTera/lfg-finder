@@ -40,9 +40,9 @@ const raidList=['ab','vh','ai','hh','rally','event'],	//List out the normally us
 From the above, you can see how you should add your own list in. If the dungeon only needs 5 person then you do not add it in. index of name in Raid list must correspond to index in raid max number.
 
 ### Other settings
-- lowerRange=60,: Lower Level range to search for
-- upperRange=65,: Upper Level range to search for
-- soundId='Notification.IM': Use true for default windows notification sound. Or use false for silence. For Custom id strings, read: http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
+- `lowerRange=60`: Lower Level range to search for
+- `upperRange=65`: Upper Level range to search for
+- `soundId='Notification.IM'`: Use true for default windows notification sound. Or use false for silence. For Custom id strings, read: http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
 
 ## Example
 Typing 'lfgfind ai' and then waiting for an lfg will yield this with default settings if there is such a lfg that is not full party:

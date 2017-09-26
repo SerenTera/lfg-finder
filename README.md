@@ -3,7 +3,7 @@ A tera proxy module to notify if an lfg that you want appears, searching contino
 
 Has 2 versions: one with tera-notifier support and one warning just using ingame sound. Please read the infomation carefully. This module uses to Server packets and thus carries some risk, similar to other modules that also dispatches to server.
 
-This Branch is for: tera-notifier version. REQUIRES tera-notifier and uses it to notify you. If you do not wish to use tera-notifier, use 'master' branch instead.
+This Branch is for: tera-notifier version. REQUIRES tera-notifier and uses it to notify you. If you do not wish to use tera-notifier, use 'sound' branch instead.
 
 Requires (READ carefully!):
 - Commands module by Pinkie-Pie

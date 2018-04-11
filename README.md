@@ -1,8 +1,16 @@
 # lfg-finder
 A tera proxy module to notify if an lfg that you want appears, searching continously till you join a party or you stop it on its own. 
 
+Current version: 2.0.0
+
+## Update
 Update: If you updated win10 recently to Fall creators update, update tera-notifier: https://github.com/SerenTera/tera-notifier
 
+Update History:
+
+ - 1.0.0 : Initial Module
+ - 2.0.0 : Added Auto update
+## General Info
 Has 2 versions: one with tera-notifier support and one warning just using ingame sound. Please read the infomation carefully. This module uses to Server packets and thus carries some risk, similar to other modules that also dispatches to server.
 
 This Branch is for: tera-notifier version. REQUIRES tera-notifier and uses it to notify you. If you do not wish to use tera-notifier, use 'sound' branch instead.
@@ -11,6 +19,8 @@ Requires (READ carefully!):
 - Commands module by Pinkie-Pie
 - tera-notifier module: https://github.com/SerenTera/tera-notifier
 
+Supports:
+ - Caali's Proxy (Auto Update)
 ## Commands
 Type commands in '/proxy' chat or use '!' prefix in other chat channels.
 

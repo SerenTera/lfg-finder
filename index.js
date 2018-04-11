@@ -1,29 +1,15 @@
+//Configs are in config.json. If not found, it will be automatically generated on first login. Refer to readme for info
 const Command = require('command'),
-	  Notifier = require('tera-notifier')
+	  Notifier = require('tera-notifier'),
+	  path = require('path'),
+	  fs = require('fs'),
+	  defaultConfig = require('./lib/configDefault.json')
 
-//Defaults
-const NO_REPEATS=true,			//No continual repetition notifications from previously informed parties, based on leader to differentiate.
-	  PRETEND_LEGIT=true,		//Pretend you are legitimately searching with window open. Very experimental and this does not mean totally risk-free lul.
-	  SEARCH_INTERVAL=30000,	//Default interval to search for lfgs. In milsecs. (default=30000ms=30s)
-	  TRY_AGAIN_INTERVAL=200,	//Default interval to retry search for lfg if previous search fail. Put a small delay for this. (It is unnatural for you to search multiple times before the initial search has returned to your pc) 
-	  
-	  CHECK_MAX_MEMBER=true,		//Check if the raid has max number of members already, and prevent notification if so. False sets max member to 31.
-	  JOIN_PARTY_STOPS_SEARCH=true	//Joining a party auto stops searches and clears it
-	  
-	  
-let lowerRange=60,				//Lower Level range to search for
-	upperRange=65,				//Upper Level range to search for
-	soundId='Notification.IM'	//Use true for default windows notification sound. Or use false for silence. For more, read: http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
-	
-	
-//Raid Maximum Member Numbers
-const raidList=['cw','ab','vh','ai','hh','rally','event'],	//List out the normally used terms for raids here (ONLY RAIDS)
-	  raidMaxNumber=[3,7,7,10,20,30,30]						//List out corresponding raid max member number
 
-	  
 module.exports = function lfgfinder(dispatch) {
 	const command = Command(dispatch),
 		  notifier = Notifier(dispatch)
+	
 	
 	let messages=[],
 		searchterms=[],
@@ -32,7 +18,39 @@ module.exports = function lfgfinder(dispatch) {
 		maxnumber,
 		timer=null,
 		searching=false,
-		windowopened=false
+		windowopened=false,
+		fileopen = true,
+		stopwrite,
+		config,
+		NO_REPEATS,
+		PRETEND_LEGIT,
+		SEARCH_INTERVAL,
+		TRY_AGAIN_INTERVAL,
+		CHECK_MAX_MEMBER,
+		JOIN_PARTY_STOPS_SEARCH,
+		lowerRange,
+		upperRange,
+		soundId,
+		raidList
+	
+	try{
+		config = JSON.parse(fs.readFileSync(path.join(__dirname,'config.json'), 'utf8'))
+		if(config.moduleVersion !== defaultConfig.moduleVersion) {
+			let oldList = JSON.parse(JSON.stringify(config.raidList)),
+				newList = JSON.parse(JSON.stringify(defaultConfig.raidList))
+			Object.assign(newList,oldList) //Clone nested object raidList
+			config = Object.assign({},defaultConfig,config,{moduleVersion:defaultConfig.moduleVersion,raidList:newList})
+			saveconfig()
+			console.log('[LFG FINDER] Updated new config file. Current settings transferred over.')
+		}
+		init()
+	}
+	catch(e){
+		config = defaultConfig
+		saveconfig()
+		init()
+		console.log('[LFG FINDER] Initated a new config file due to missing config file. Add your default config in config.json.')
+	}	
 
 	
 	/////Commands
@@ -194,8 +212,8 @@ module.exports = function lfgfinder(dispatch) {
 		
 		else {
 			maxnumber=5
-			for(let i in raidList) {
-				if(term.includes(raidList[i])) maxnumber=raidMaxNumber[i]
+			for(let key of Object.keys(raidList)) {
+				if(term.includes(key)) maxnumber=raidList[key]
 			}
 		}
 		
@@ -225,4 +243,25 @@ module.exports = function lfgfinder(dispatch) {
 		})
 		dispatch.toServer('C_REQUEST_MY_PARTY_MATCH_INFO', 1, {})
 	}
+	
+	function saveconfig() {
+		if(fileopen) {
+			fileopen = false
+			fs.writeFile(path.join(__dirname,'config.json'), JSON.stringify(config,null,"\t"), err => {
+				if(err) console.log('(ChangeEveryone) Error writing file, attempting to rewrite. If message persist, restart game and proxy')
+				else fileopen = true
+			})
+		}
+		else {
+			clearTimeout(stopwrite)  //if file still being written
+			stopwrite = setTimeout(saveconfig(),2000)
+			return
+		}
+	}
+	
+	function init() {
+		({NO_REPEATS,PRETEND_LEGIT,SEARCH_INTERVAL,TRY_AGAIN_INTERVAL,CHECK_MAX_MEMBER,JOIN_PARTY_STOPS_SEARCH,lowerRange,upperRange,soundId,raidList} = config)
+	}
+	
+	
 }

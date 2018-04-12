@@ -21,6 +21,32 @@ Requires (READ carefully!):
 
 Supports:
  - Caali's Proxy (Auto Update)
+ 
+## Config
+Settings are in config.json, if not available, it will be automatically generated on your first login based on defaults.
+
+### Defaults in index.js are as follows:
+- `NO_REPEATS=true`: No continual repetition notifications from previously informed parties, based on leader to differentiate. In other words, Only one notification per party lead
+
+- `PRETEND_LEGIT=true`: Pretend you are legitimately searching with window open. Very experimental and this does not mean totally risk-free. Set to true to try it out. false if you do not care lul
+
+- `SEARCH_INTERVAL=30000`: Default interval to search for lfgs. In milsecs. (default=30000ms=30s) Aka searches every this often.
+
+- `TRY_AGAIN_INTERVAL=200`: Default interval to retry search for lfg if previous search fail. Put a small delay for this or just leave it as it is. (It is unnatural for you to search multiple times before the initial search has returned to your pc)
+
+- `CHECK_MAX_MEMBER=true`: true to check if the party is already full for that dungeon. Checks uses 'Raid Maximum Member Numbers' or 5 members if not defined. 
+
+- `JOIN_PARTY_STOPS_SEARCH=true`: true to stop searching once you enter a party automatically.
+
+### 'Raid Maximum Member Numbers' in index.js:
+This helps to automatically define the maximum party member in a party when `CHECK_MAX_MEMBER` is set to true.
+From the Setting, when your search contains the term, then the number of maximum member will be changed accordingly. For example, when ur search term contains hh, then the maximum member will be set to 20, and after which, the module will not warn you.
+
+### Other settings
+- `lowerRange=60`: Lower Level range to search for
+- `upperRange=65`: Upper Level range to search for
+- `soundId='Notification.IM'`: Use true for default windows notification sound. Or use false for silence. For Custom id strings, read: http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
+ 
 ## Commands
 Type commands in '/proxy' chat or use '!' prefix in other chat channels.
 
@@ -31,30 +57,6 @@ Type commands in '/proxy' chat or use '!' prefix in other chat channels.
 - `lfgstop`: Typing this command without arguments stops all searches for lfg immediately. Search should stop immediately on joining any party, if it does not, use this command.
 - `lfglist`: List out all the current search queries entered.
 
-## Settings in index.js
-### Defaults in index.js are as follows:
-- `NO_REPEATS=true`: No continual repetition notifications from previously informed parties, based on leader to differentiate. In other words, Only one notification per party lead
-
-- `PRETEND_LEGIT=true`: Pretend you are legitimately searching with window open. Very experimental and this does not mean totally risk-free. Set to true to try it out. false if you do not care lul
-
-- `SEARCH_INTERVAL=30000`: Default interval to search for lfgs. In milsecs. (default=30000ms=30s) Aka searches every this often.
-
-- `TRY_AGAIN_INTERVAL=200`: Default interval to retry search for lfg if previous search fail. Put a small delay for this or just leave it as it is. (It is unnatural for you to search multiple times before the initial search has returned to your pc)
-- `CHECK_MAX_MEMBER=true`: true to check if the party is already full for that dungeon. Checks uses 'Raid Maximum Member Numbers' or 5 members if not defined. 
-- `JOIN_PARTY_STOPS_SEARCH=true`: true to stop searching once you enter a party automatically.
-
-### 'Raid Maximum Member Numbers' in index.js:
-This helps to automatically define the maximum party member in a party when `CHECK_MAX_MEMBER` is set to true.
-```
-const raidList=['ab','vh','ai','hh','rally','event'],	//List out the normally used terms for raids here (ONLY RAIDS)
-      raidMaxNumber=[7,7,10,20,30,30]				        	//List out corresponding raid max member number
-```    
-From the above, you can see how you should add your own list in. If the dungeon only needs 5 person then you do not add it in. index of name in Raid list must correspond to index in raid max number.
-
-### Other settings
-- `lowerRange=60`: Lower Level range to search for
-- `upperRange=65`: Upper Level range to search for
-- `soundId='Notification.IM'`: Use true for default windows notification sound. Or use false for silence. For Custom id strings, read: http://msdn.microsoft.com/en-us/library/windows/apps/hh761492.aspx
 
 ## Example
 Typing 'lfgfind ai' and then waiting for an lfg will yield this with default settings if there is such a lfg that is not full party:

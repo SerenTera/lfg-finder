@@ -50,11 +50,16 @@ From the Setting, when your search contains the term, then the number of maximum
 ## Commands
 Type commands in '/proxy' chat or use '!' prefix in other chat channels.
 
-- `lfgrange (lower range) (higherrange)`: Changes the level range to search. Default is 60-65
+To start searching for LFGs:
 - `lfgfind (search1,search2,search3,...)`: Start Searches for these search terms. Separate out each search term with ','. For example, if I want to search for vhhm,mm and vs(no preference for nm or hm), I would type 'lfgfind vhhm,mm,vs'.
 - `lfgcustom (search) (max member)`: Start search for a term with customized number of members. If I want to search for say, a custom string that would have only 30 max members, i would type 'lfgcustom argon 30', and it will search for lfgs with argons in the message and members which is less than 30.
+
+To stop searching for LFGs:
 - `lfgstop (string1,string2,string3,...)`: Stop searches for this search term. Only stops if it is previously added, and spelling must be exact. For example, if i want to stop searching for vhhm and mm only, leaving vs search still active, i would type 'lfgstop vhhm,mm'
 - `lfgstop`: Typing this command without arguments stops all searches for lfg immediately. Search should stop immediately on joining any party, if it does not, use this command.
+
+Other convienent commands:
+- `lfgrange (lower range) (higherrange)`: Changes the level range to search. Default is 60-65
 - `lfglist`: List out all the current search queries entered.
 
 

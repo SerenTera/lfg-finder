@@ -1,14 +1,12 @@
 //Configs are in config.json. If not found, it will be automatically generated on first login. Refer to readme for info
-const Command = require('command'),
-	  Notifier = require('tera-notifier'),
+const Notifier = require('tera-notifier'),
 	  path = require('path'),
 	  fs = require('fs'),
 	  defaultConfig = require('./lib/configDefault.json')
 
 
-module.exports = function lfgfinder(dispatch) {
-	const command = Command(dispatch),
-		  notifier = Notifier(dispatch)
+module.exports = function lfgfinder(mod) {
+	const notifier = Notifier(mod)
 	
 	
 	let messages=[],
@@ -54,73 +52,81 @@ module.exports = function lfgfinder(dispatch) {
 
 	
 	/////Commands
-	command.add('lfgrange', (lower,higher) => {
-		lowerRange=parseInt(lower)
-		upperRange=parseInt(higher)
-		command.message('(LFG Finder) Level range set to '+lower+' to '+higher)
-	})
+	mod.command.add('lfg', {
+		$default() {
+			mod.command.message('Invalid Command. Use "lfg info" for help')
+		},
+		info() {
+			mod.command.message('Commands:lfg (argument)\nArgument available are:\nrange lower higher\nfind <args>\ncustom <pharse> <member number>\nstop <arg>\nlist')
+		},
+		range(lower,higher) {
+			lowerRange=parseInt(lower)
+			upperRange=parseInt(higher)
+			mod.command.message(' Level range set to '+lower+' to '+higher)
+		},
 	
-	command.add('lfgfind', args => { //investigate later how to use ...args 
-		if(args===undefined) leadlist=[] //reset leadlist if no argument
+		find(args) { //investigate later how to use ...args 
+			if(args===undefined) leadlist=[] //reset leadlist if no argument
 		
-		args=args.split(',')
+			args=args.split(',')
 		
-		for(let term of args) {
-			max(term.toLowerCase())
-			searchterms.push(term.toLowerCase())
-		}
+			for(let term of args) {
+				max(term.toLowerCase())
+				searchterms.push(term.toLowerCase())
+			}
 		
-		clearTimeout(timer)
-		finder()
-		command.message('(LFG Finder) Current Search: '+searchterms)
-	})
-	
-	command.add('lfgcustom', (search,members) => {
-		if(isNaN(members) && members!==undefined) command.message('(LFG Finder) Only input numbers for number of members')
-		
-		else {
-			if(PRETEND_LEGIT && searchterms.length===0) pretendlegit()
-			
-			searchterms.push(search.toLowerCase())
-			
-			if (!isNaN(members)) searchno.push(parseInt(members))
-			
-			else {max(search.toLowerCase())}
-			
 			clearTimeout(timer)
 			finder()
-			command.message('(LFG Finder) Finding: '+search)
-		}
-	})
+			mod.command.message(' Current Search: '+searchterms)
+		},
 	
-	
-	command.add('lfgstop', arg => {
-		if(arg===undefined) stopall()
+		custom(search,members) {
+			if(isNaN(members) && members!==undefined) mod.command.message(' Only input numbers for number of members')
 		
-		else {
-			arg=arg.split(',')
-			for(let term of arg) {
-				if(searchterms.includes(term.toLowerCase())) {
-					searchno.splice(searchterms.indexOf(term.toLowerCase()),1)
-					searchterms.splice(searchterms.indexOf(term.toLowerCase()),1)
-				}
+			else {
+				if(PRETEND_LEGIT && searchterms.length===0) pretendlegit()
+			
+				searchterms.push(search.toLowerCase())
+			
+				if (!isNaN(members)) searchno.push(parseInt(members))
+			
+				else {max(search.toLowerCase())}
+			
+				clearTimeout(timer)
+				finder()
+				mod.command.message(' Finding: '+search)
 			}
-			command.message('(LFG Finder) Left searches:'+searchterms)
-		}
-		
-		if(searchterms.length===0) {
-			leadlist=[]
-			clearTimeout(timer)
-		}
-	})
+		},
 	
-	command.add('lfglist', () => {
-		command.message('(LFG Finder) Currently searching for '+searchterms)
+	
+		stop(arg) {
+			if(arg===undefined) stopall()
+		
+			else {
+				arg=arg.split(',')
+				for(let term of arg) {
+					if(searchterms.includes(term.toLowerCase())) {
+						searchno.splice(searchterms.indexOf(term.toLowerCase()),1)
+						searchterms.splice(searchterms.indexOf(term.toLowerCase()),1)
+					}
+				}
+				mod.command.message(' Left searches:'+searchterms)
+			}
+		
+			if(searchterms.length===0) {
+				leadlist=[]
+				clearTimeout(timer)
+			}
+		},
+	
+		list() {
+			mod.command.message(' Currently searching for '+searchterms)
+		}
 	})
 	
 	
 	/////Dispatches
-	dispatch.hook('S_SHOW_PARTY_MATCH_INFO', 1, event => {
+	mod.hook('S_SHOW_PARTY_MATCH_INFO', 1, event => {
 		if(searching && !windowopened) { 				//Do not notify if its because window is opened.
 			messages.push.apply(messages,event.listings) //Array object cannot use concat.
 			
@@ -142,27 +148,27 @@ module.exports = function lfgfinder(dispatch) {
 			
 			messages=[]
 			searching=false
-			if(PRETEND_LEGIT) dispatch.toServer('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
+			if(PRETEND_LEGIT) mod.send('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
 		}
 	})	
 	
-	dispatch.hook('C_REQUEST_PARTY_MATCH_INFO', 'raw', {filter:{fake:false}}, () => {
+	mod.hook('C_REQUEST_PARTY_MATCH_INFO', 'raw', {filter:{fake:false}}, () => {
 		if(PRETEND_LEGIT && !searching && !windowopened) { //while searching server will see it as your window is opened. This will close the window before allowing true opening.
-			dispatch.toServer('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
+			mod.send('C_PARTY_MATCH_WINDOW_CLOSED',1,{})
 		}
 			
 		windowopened=true
 	})
 	
-	dispatch.hook('C_PARTY_MATCH_WINDOW_CLOSED', 'raw', {filter:{fake:false}}, () => {
+	mod.hook('C_PARTY_MATCH_WINDOW_CLOSED', 'raw', {filter:{fake:false}}, () => {
 		windowopened=false
 	})
 	
-	dispatch.hook('S_RETURN_TO_LOBBY', 'raw', () => { //clear all timer when switching characters
+	mod.hook('S_RETURN_TO_LOBBY', 'raw', () => { //clear all timer when switching characters
 		stopall()
 	})
 	
-	dispatch.hook('S_PARTY_MEMBER_LIST', 'raw', () => { //clear all timer and stuff when joining a party
+	mod.hook('S_PARTY_MEMBER_LIST', 'raw', () => { //clear all timer and stuff when joining a party
 		if(JOIN_PARTY_STOPS_SEARCH && searchterms.length!==0) stopall()
 	})
 	
@@ -173,7 +179,7 @@ module.exports = function lfgfinder(dispatch) {
 			if(PRETEND_LEGIT) pretendlegit()
 			
 			else {
-				dispatch.toServer('C_REQUEST_PARTY_MATCH_INFO', 1, {
+				mod.send('C_REQUEST_PARTY_MATCH_INFO', 1, {
 					unk1:0,
 					minlvl:lowerRange,
 					maxlvl:upperRange,
@@ -191,7 +197,7 @@ module.exports = function lfgfinder(dispatch) {
 	
 	function stopall() {
 		clearTimeout(timer)
-		command.message('(LFG Finder) All searches stopped')
+		mod.command.message(' All searches stopped')
 		searchterms=[]
 		searchno=[]
 		leadlist=[]
@@ -221,11 +227,11 @@ module.exports = function lfgfinder(dispatch) {
 	}
 	
 	/*function turnpage() { //undefined
-		dispatch.toServer('C_REQUEST_PARTY_MATCH_INFO_PAGE', 1, {})
+		mod.toServer('C_REQUEST_PARTY_MATCH_INFO_PAGE', 1, {})
 	} */
 	
 	function pretendlegit() { //In Tera NA, opening the window send these packets in order. CRPMI,CRPMI,CRMPMI
-		dispatch.toServer('C_REQUEST_PARTY_MATCH_INFO', 1, {
+		mod.send('C_REQUEST_PARTY_MATCH_INFO', 1, {
 				unk1:0,
 				minlvl:lowerRange,
 				maxlvl:upperRange,
@@ -233,7 +239,7 @@ module.exports = function lfgfinder(dispatch) {
 				unk3:0,
 				purpose:''
 		})
-		dispatch.toServer('C_REQUEST_PARTY_MATCH_INFO', 1, {
+		mod.send('C_REQUEST_PARTY_MATCH_INFO', 1, {
 				unk1:0,
 				minlvl:lowerRange,
 				maxlvl:upperRange,
@@ -241,7 +247,7 @@ module.exports = function lfgfinder(dispatch) {
 				unk3:0,
 				purpose:''
 		})
-		dispatch.toServer('C_REQUEST_MY_PARTY_MATCH_INFO', 1, {})
+		mod.send('C_REQUEST_MY_PARTY_MATCH_INFO', 1, {})
 	}
 	
 	function saveconfig() {

@@ -1,13 +1,12 @@
 {
     "files": {
-        "index.js": "b50004bfbc1f30f1738a8f2d4d0b0e3219f790aebf86fb8a7ca955fb4a9cdfc0",
-        "module.json": "2e71ef0a7eef4d0fb748357bd4de707335c816f7b378df7c8dbb11846da0d57f",
+        "index.js": "d1002d12799c94950754a5b7478138bc08107aa51f66f5c6b7dd8ab1af7c6a4c",
+        "module.json": "572a354bf46f69608827d7c3cc517c5a2d360109f4411fb8d6867994b3d88608",
         "lib/configDefault.json": "be0605b4c50fb1ee06e336f55497c1194ff377024107a7bfd130aa7b8288f9fb"
     },
     "defs": {
         "C_PARTY_MATCH_WINDOW_CLOSED": 1,
         "C_REQUEST_PARTY_MATCH_INFO": 1,
-        "C_REQUEST_PARTY_MATCH_INFO_PAGE": 1,
         "C_REQUEST_MY_PARTY_MATCH_INFO": 1,
         "S_SHOW_PARTY_MATCH_INFO": 1
     }

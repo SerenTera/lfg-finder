@@ -51,11 +51,11 @@ From the Setting, when your search contains the term, then the number of maximum
 Type commands in '/proxy' chat or use '!' prefix in other chat channels.
 
 To start searching for LFGs:
-- `lfg find (search1,search2,search3,...)`: Start Searches for these search terms. Separate out each search term with ','. For example, if I want to search for vhhm,mm and vs(no preference for nm or hm), I would type 'lfgfind vhhm,mm,vs'.
-- `lfg custom (search) (max member)`: Start search for a term with customized number of members. If I want to search for say, a custom string that would have only 30 max members, i would type 'lfgcustom argon 30', and it will search for lfgs with argons in the message and members which is less than 30.
+- `lfg find (search1,search2,search3,...)`: Start Searches for these search terms. Separate out each search term with ','. For example, if I want to search for vhhm,mm and vs(no preference for nm or hm), type 'lfg find vhhm,mm,vs'.
+- `lfg custom (search) (max member)`: Start search for a term with customized number of members. If I want to search for say, a custom string that would have only 30 max members, type 'lfg custom argon 30', and it will search for lfgs with argons in the message and members which is less than 30.
 
 To stop searching for LFGs:
-- `lfg stop (string1,string2,string3,...)`: Stop searches for this search term. Only stops if it is previously added, and spelling must be exact. For example, if i want to stop searching for vhhm and mm only, leaving vs search still active, i would type 'lfgstop vhhm,mm'
+- `lfg stop (string1,string2,string3,...)`: Stop searches for this search term. Only stops if it is previously added, and spelling must be exact. For example, to stop searching for vhhm and mm only, leaving vs search still active,  type 'lfg stop vhhm,mm'
 - `lfg stop`: Typing this command without arguments stops all searches for lfg immediately. Search should stop immediately on joining any party, if it does not, use this command.
 
 Other convienent commands:
@@ -64,10 +64,10 @@ Other convienent commands:
 
 
 ## Example
-Typing 'lfgfind ai' and then waiting for an lfg will yield this with default settings if there is such a lfg that is not full party:
+Typing 'lfg find ai' and then waiting for an lfg will yield this with default settings if there is such a lfg that is not full party:
 ![lfg](http://i.imgur.com/wZOu8mA.jpg)
 
-After which you just need to apply to it. The search should stop on its own upon joining party, look out for a message that says all searches stopped, else use `lfgstop` without arguments.
+After which you just need to apply to it. The search should stop on its own upon joining party, look out for a message that says all searches stopped, else use `lfg stop` without arguments.
 ## Other infomation
 - This module is slightly risky because it uses packets that is sent to server. Attempts to mask it should not be taken as 100% effective. 
 - This module is in initial stages and might contain alot of bugs

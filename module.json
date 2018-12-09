@@ -1,7 +1,14 @@
 {
     "disableAutoUpdate": false,
+	"name": "lfg-finder",
+	"author": "Seren",
+	"description": "Looks out for user specified LFG and alert user if one is found.",
+	"version": "1.0.0",
 	"options": {
 		"niceName":"LFG Finder"
 	},
-	"servers": ["https://raw.githubusercontent.com/SerenTera/lfg-finder/tera-notifier/"]
+	"servers": ["https://raw.githubusercontent.com/SerenTera/lfg-finder/tera-notifier/"],
+	"dependencies": {
+		"tera-notifier":"https://raw.githubusercontent.com/SerenTera/tera-notifier/master/module.json"
+	}
 }

@@ -1,12 +1,11 @@
 //Configs are in config.json. If not found, it will be automatically generated on first login. Refer to readme for info
-const Notifier = require('tera-notifier'),
-	  path = require('path'),
+const path = require('path'),
 	  fs = require('fs'),
 	  defaultConfig = require('./lib/configDefault.json')
 
 
 module.exports = function lfgfinder(mod) {
-	const notifier = Notifier(mod)
+	const notifier = mod.require.tera-notifier
 	
 	
 	let messages=[],

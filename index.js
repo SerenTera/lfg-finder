@@ -4,7 +4,7 @@ const path = require('path'),
 
 
 module.exports = function lfgfinder(mod) {
-	const notifier = mod.require ? mod.require.notifier : require('tera-notifier')
+	const notifier = mod.require ? mod.require.notifier : require('tera-notifier')(mod)
 	
 	let messages=[],
 		searchterms=[],

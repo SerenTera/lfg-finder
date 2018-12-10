@@ -1,17 +1,17 @@
 {
-    "disableAutoUpdate": true,
-	"name": "lfg-finder",
-	"author": "Seren",
-	"description": "Looks out for user specified LFG and alert user if one is found.",
-	"version": "1.0.0",
-	"options": {
-		"niceName":"LFG Finder",
-		"settingsVersion": 1,
+    "disableAutoUpdate": false,
+    "name": "lfg-finder",
+    "author": "Seren",
+    "description": "Looks out for user specified LFG and alert user if one is found.",
+    "version": "1.0.0",
+    "options": {
+        "niceName":"LFG Finder",
+        "settingsVersion": 1,
         "settingsFile": "config.json",
         "settingsMigrator": "settings_migrator.js"
-	},
-	"servers": ["https://raw.githubusercontent.com/SerenTera/lfg-finder/tera-notifier/"],
-	"dependencies": {
-		"notifier":"https://raw.githubusercontent.com/SerenTera/tera-notifier/master/module.json"
-	}
+    },
+    "servers": ["https://raw.githubusercontent.com/SerenTera/lfg-finder/tera-notifier/"],
+    "dependencies": {
+        "notifier":"https://raw.githubusercontent.com/SerenTera/tera-notifier/master/module.json"
+    }
 }

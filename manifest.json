@@ -1,8 +1,8 @@
 {
     "files": {
-        "index.js": "d1002d12799c94950754a5b7478138bc08107aa51f66f5c6b7dd8ab1af7c6a4c",
-        "module.json": "572a354bf46f69608827d7c3cc517c5a2d360109f4411fb8d6867994b3d88608",
-        "lib/configDefault.json": "be0605b4c50fb1ee06e336f55497c1194ff377024107a7bfd130aa7b8288f9fb"
+        "index.js": "c1438a8ecdc48f83c893eada3d32427b8f8f06116f772d11a8c3947d2414d729",
+        "module.json": "9358a598659648c6b41fdb3259361be24694ce1d7fce1d4ce88c888336025ab7",
+        "settings_migrator.js": "5e989281da0836d4f7919a808a6429ac695f6d89c3e9e697f3f8134ff4855c8f"
     },
     "defs": {
         "C_PARTY_MATCH_WINDOW_CLOSED": 1,

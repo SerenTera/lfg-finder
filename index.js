@@ -1,13 +1,10 @@
 //Configs are in config.json. If not found, it will be automatically generated on first login. Refer to readme for info
-const Notifier = require('tera-notifier'),
-	  path = require('path'),
-	  fs = require('fs'),
-	  defaultConfig = require('./lib/configDefault.json')
+const path = require('path'),
+	  fs = require('fs')
 
 
 module.exports = function lfgfinder(mod) {
-	const notifier = Notifier(mod)
-	
+	const notifier = mod.require ? mod.require.notifier : require('tera-notifier')
 	
 	let messages=[],
 		searchterms=[],
@@ -31,26 +28,7 @@ module.exports = function lfgfinder(mod) {
 		soundId,
 		raidList
 	
-	try{
-		config = JSON.parse(fs.readFileSync(path.join(__dirname,'config.json'), 'utf8'))
-		if(config.moduleVersion !== defaultConfig.moduleVersion) {
-			let oldList = JSON.parse(JSON.stringify(config.raidList)),
-				newList = JSON.parse(JSON.stringify(defaultConfig.raidList))
-			Object.assign(newList,oldList) //Clone nested object raidList
-			config = Object.assign({},defaultConfig,config,{moduleVersion:defaultConfig.moduleVersion,raidList:newList})
-			saveconfig()
-			console.log('[LFG FINDER] Updated new config file. Current settings transferred over.')
-		}
-		init()
-	}
-	catch(e){
-		config = defaultConfig
-		saveconfig()
-		init()
-		console.log('[LFG FINDER] Initated a new config file due to missing config file. Add your default config in config.json.')
-	}	
-
-	
+	init()
 	/////Commands
 	mod.command.add('lfg', {
 		$default() {
@@ -266,7 +244,7 @@ module.exports = function lfgfinder(mod) {
 	}
 	
 	function init() {
-		({NO_REPEATS,PRETEND_LEGIT,SEARCH_INTERVAL,TRY_AGAIN_INTERVAL,CHECK_MAX_MEMBER,JOIN_PARTY_STOPS_SEARCH,lowerRange,upperRange,soundId,raidList} = config)
+		({NO_REPEATS,PRETEND_LEGIT,SEARCH_INTERVAL,TRY_AGAIN_INTERVAL,CHECK_MAX_MEMBER,JOIN_PARTY_STOPS_SEARCH,lowerRange,upperRange,soundId,raidList} = mod.settings)
 	}
 	
 	
